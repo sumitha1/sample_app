@@ -40,7 +40,7 @@ describe SessionsController do
       end
     end
 
-    describe "with valid email and password" do
+     describe "with valid email and password" do
 
       before(:each) do
         @user = Factory(:user)
