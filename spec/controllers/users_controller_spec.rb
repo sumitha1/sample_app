@@ -2,41 +2,7 @@ require 'spec_helper'
 
 describe UsersController do
   render_views
-
-  describe "GET 'new'" do
-
-    it "should be successful" do
-      get 'new'
-      response.should be_success
-    end
-
-    it "should have the right title" do
-      get 'new'
-      response.should have_selector("title", :content => "Sign up")
-    end
-
-    it "should have a name field" do
-      get :new
-      response.should have_selector("input[name='user[name]'][type='text']")
-    end
-
-    it "should have an email field" do
-      get :new
-      response.should have_selector("input[email='user[email]'][type='text']")
-    end
-
-    it "should have a password field" do
-      get :new
-      response.should have_selector("input[password='user[password]'][type='text']")
-    end
-
-    it "should have a password confirmation field" do
-      get :new
-      response.should have_selector("input[password_confirmation='user[password_confirmation]'][type='text']")
-    end
-  end
-
-  describe "GET 'show'" do
+describe "GET 'show'" do
 
     before(:each) do
       @user = Factory(:user)
@@ -51,7 +17,6 @@ describe UsersController do
       get :show, :id => @user
       assigns(:user).should == @user
     end
-  
     it "should have the right title" do
       get :show, :id => @user
       response.should have_selector("title", :content => @user.name)
@@ -67,8 +32,38 @@ describe UsersController do
       response.should have_selector("h1>img", :class => "gravatar")
     end
   end
+  describe "GET 'new'" do
 
-    describe "POST 'create'" do
+    it "should be successful" do
+      get 'new'
+      response.should be_success
+    end
+
+    it "should have the right title" do
+      get 'new'
+      response.should have_selector("title", :content => "Sign up")
+    end
+ it "should have a name field" do
+      get :new
+      response.should have_selector("input[name='user[name]'][type='text']")
+    end
+
+    it "should have an email field" do
+      get :new
+      response.should have_selector("input[id='user_email'][name='user[email]'][size='30'][type='text']")
+    end
+
+    it "should have a password field" do
+      get :new
+      response.should have_selector("input[id='user_password'][name='user[password]'][size='30'][type='password']")
+    end
+
+    it "should have a password confirmation field" do
+      get :new
+      response.should have_selector("input[id='user_password_confirmation'][name='user[password_confirmation]'][size='30'][type='password']")
+    end  
+  end
+describe "POST 'create'" do
 
     describe "failure" do
 
@@ -93,7 +88,6 @@ describe UsersController do
         response.should render_template('new')
       end
     end
-
     describe "success" do
 
       before(:each) do
@@ -110,19 +104,15 @@ describe UsersController do
       it "should redirect to the user show page" do
         post :create, :user => @attr
         response.should redirect_to(user_path(assigns(:user)))
-      end  
-      
+      end
       it "should have a welcome message" do
         post :create, :user => @attr
         flash[:success].should =~ /welcome to the sample app/i
-      end 
-
+      end
       it "should sign the user in" do
         post :create, :user => @attr
         controller.should be_signed_in
-      end 
+      end
     end
   end
 end
-
-
