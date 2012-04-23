@@ -6,6 +6,7 @@ describe UsersController do
   describe "GET 'index'" do
 
     describe "for non-signed-in users" do
+
       it "should deny access" do
         get :index
         response.should redirect_to(signin_path)
@@ -86,6 +87,7 @@ describe UsersController do
       response.should have_selector("h1>img", :class => "gravatar")
     end
   end
+
   describe "GET 'new'" do
 
     it "should be successful" do
@@ -117,7 +119,8 @@ describe UsersController do
       response.should have_selector("input[id='user_password_confirmation'][name='user[password_confirmation]'][size='30'][type='password']")
     end  
   end
-describe "POST 'create'" do
+
+  describe "POST 'create'" do
 
     describe "failure" do
 
@@ -142,6 +145,7 @@ describe "POST 'create'" do
         response.should render_template('new')
       end
     end
+
     describe "success" do
 
       before(:each) do
@@ -159,10 +163,12 @@ describe "POST 'create'" do
         post :create, :user => @attr
         response.should redirect_to(user_path(assigns(:user)))
       end
+
       it "should have a welcome message" do
         post :create, :user => @attr
         flash[:success].should =~ /welcome to the sample app/i
       end
+
       it "should sign the user in" do
         post :create, :user => @attr
         controller.should be_signed_in
@@ -171,18 +177,22 @@ describe "POST 'create'" do
   end
 
   describe "GET 'edit'" do
+
     before(:each) do
       @user = Factory(:user)
       test_sign_in(@user)
     end
+
     it "should be successful" do
       get :edit, :id => @user
       response.should be_success
     end
+
     it "should have the right title" do
       get :edit, :id => @user
       response.should have_selector("title", :content => "Edit user")
     end
+
     it "should have a link to change the Gravatar" do
       get :edit, :id => @user
       gravatar_url = "http://gravatar.com/emails"
