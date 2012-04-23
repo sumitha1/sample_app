@@ -45,6 +45,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+     if current_user == User.find(params[:id])
+      flash[:notice] = "You cannot delete yourself."
+    else
+      User.find(params[:id]).destroy
+      flash[:success] = "User destroyed."
+    end
+    redirect_to users_path
+  end
+
   private
 
     def authenticate
@@ -54,6 +64,10 @@ class UsersController < ApplicationController
     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_path) unless current_user?(@user)
+    end
+
+    def admin_user
+      redirect_to(root_path) unless current_user.admin?
     end
 end
 
