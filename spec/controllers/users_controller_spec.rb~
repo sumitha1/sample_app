@@ -328,13 +328,6 @@ describe UsersController do
         delete :destroy, :id => @user
         response.should redirect_to(users_path)
       end
-
-      it "should not allow to destroy self" do
-        lambda do
-          delete :destroy, :id => @admin
-        end.should change(User, :count).by(0)
-        response.should redirect_to(users_path)       
-      end
     end
   end
 end
