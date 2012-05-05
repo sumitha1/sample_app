@@ -52,13 +52,27 @@ class UsersController < ApplicationController
   end
 
   def destroy
-     if current_user == User.find(params[:id])
+    if current_user == User.find(params[:id])
       flash[:notice] = "You cannot delete yourself."
     else
       User.find(params[:id]).destroy
       flash[:success] = "User destroyed."
     end
     redirect_to users_path
+  end
+
+  def following
+    @title = "Following"
+    @user = User.find(params[:id])
+    @users = @user.following.paginate(:page => params[:page])
+    render 'show_follow'
+  end
+
+  def followers
+    @title = "Followers"
+    @user = User.find(params[:id])
+    @users = @user.followers.paginate(:page => params[:page])
+    render 'show_follow'
   end
 
   private
