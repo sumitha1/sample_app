@@ -52,7 +52,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-     if current_user == User.find(params[:id])
+    if current_user == User.find(params[:id])
       flash[:notice] = "You cannot delete yourself."
     else
       User.find(params[:id]).destroy
